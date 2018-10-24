@@ -10,6 +10,11 @@ public class GameFinished : MonoBehaviour
     [SerializeField] //use for showing a private variable's value on Inspector.
     private Animator gameFinishedAnim, star1Anim, star2Anim, star3Anim, textAnim;
 
+    public void Awake()
+    {
+        gameFinishedPanel.SetActive(false);
+    }
+
     public void ShowGameFineshedPanel(int stars)
     {
         StartCoroutine(ShowPanel(stars));
