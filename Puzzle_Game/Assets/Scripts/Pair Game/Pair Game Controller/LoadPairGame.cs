@@ -176,13 +176,14 @@ public class LoadPairGame : MonoBehaviour
     IEnumerator LoadPairLevelPanel(GameObject pairGamePanel, Animator pairGamePanelAnim)
     {
         pairLevelPanel.SetActive(true);
+        pairLevelPanel.GetComponent<CanvasGroup>().interactable = false;
         pairLevelPanelAnim.Play("SlideIn");
         pairGamePanelAnim.Play("SlideOut");
 
         yield return new WaitForSeconds(1f);
-
+        
         //reset animation to idle in order to fix the problem when click back button to levels.
-        foreach(Animator anim in anims)
+        foreach (Animator anim in anims)
         {
             anim.Play("Idle");
         }
@@ -190,6 +191,7 @@ public class LoadPairGame : MonoBehaviour
         yield return new WaitForSeconds(.5f);
 
         pairGamePanel.SetActive(false);
+        pairLevelPanel.GetComponent<CanvasGroup>().interactable = true;
     }
 
     //create coroutine
@@ -197,11 +199,13 @@ public class LoadPairGame : MonoBehaviour
     {
 
         pairGamePanel.SetActive(true);
+        pairGamePanel.GetComponent<CanvasGroup>().interactable = false;
         pairGamePanelAnim.Play("SlideIn");
         pairLevelPanelAnim.Play("SlideOut");
         yield return new WaitForSeconds(1f);
         pairLevelPanel.SetActive(false);
-      
+        pairGamePanel.GetComponent<CanvasGroup>().interactable = true;
+
     }
 
 }
