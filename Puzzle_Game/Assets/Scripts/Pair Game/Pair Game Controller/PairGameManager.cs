@@ -7,12 +7,17 @@ using UnityEngine.UI;
 public class PairGameManager : MonoBehaviour
 {
 
-    public GameFinished gameFinished;
+    [SerializeField] //use for showing a private variable's value on Inspector.
+    private PairGameSaver pairGameSaver;
+
+    [SerializeField] //use for showing a private variable's value on Inspector.
+    private GameFinished gameFinished;
 
     private List<Button> pairButtons = new List<Button>();
 
     private List<Animator> pairButtonsAnimators = new List<Animator>();
 
+    [SerializeField] //use for showing a private variable's value on Inspector.
     private List<Sprite> gamePairSprites = new List<Sprite>();
 
     private int level;
@@ -31,6 +36,8 @@ public class PairGameManager : MonoBehaviour
     private int countCorrectGuess;
 
     private int gameGuess;
+
+    private int starsWin;
 
     public void PickAPair()
     {
@@ -53,18 +60,27 @@ public class PairGameManager : MonoBehaviour
             secondGuess = true;
             secondGuessIndex = int.Parse(UnityEngine.EventSystems.EventSystem.current.currentSelectedGameObject.name);
 
-            secondGuessPair = gamePairSprites[secondGuessIndex].name;
+            //prevent error for double click
+            if (firstGuessIndex != secondGuessIndex)
+            {
+                secondGuessPair = gamePairSprites[secondGuessIndex].name;
 
-            StartCoroutine(TurnPairButtonUp(
-           pairButtonsAnimators[secondGuessIndex],
-           pairButtons[secondGuessIndex],
-           gamePairSprites[secondGuessIndex]
-           ));
+                StartCoroutine(TurnPairButtonUp(
+               pairButtonsAnimators[secondGuessIndex],
+               pairButtons[secondGuessIndex],
+               gamePairSprites[secondGuessIndex]
+               ));
 
 
-            StartCoroutine(CheckIfThePairMatch(pairBackgroundImage));
+                StartCoroutine(CheckIfThePairMatch(pairBackgroundImage));
 
-            countTryGuess++;
+                countTryGuess++;
+            }
+            else
+            {
+                secondGuess = false;
+            }
+
         }
 
 
@@ -155,17 +171,25 @@ public class PairGameManager : MonoBehaviour
         if (countTryGuess < howManyGuesses)
         {
             //3 stars
-            gameFinished.ShowGameFineshedPanel(3);
+            starsWin = 3;
+            gameFinished.ShowGameFineshedPanel(starsWin);
+
+            pairGameSaver.Save(level,selectedPair, starsWin);
         }else if(countTryGuess < (howManyGuesses + 5))
         {
             //2 stars
-            gameFinished.ShowGameFineshedPanel(2);
+            starsWin = 2;
+            gameFinished.ShowGameFineshedPanel(starsWin);
+            pairGameSaver.Save(level, selectedPair, starsWin);
 
-        }else
+        }
+        else
         {
 
             //1 stars
-            gameFinished.ShowGameFineshedPanel(1);
+            starsWin = 1;
+            gameFinished.ShowGameFineshedPanel(starsWin);
+            pairGameSaver.Save(level, selectedPair, starsWin);
         }
 
     }
@@ -178,7 +202,7 @@ public class PairGameManager : MonoBehaviour
         countTryGuess = 0;
         countCorrectGuess = 0;
 
-        gameFinished.HideGameFinishedPanel();
+        gameFinished.HideGameFinishedPanel(starsWin);
 
         return pairButtonsAnimators;
     }

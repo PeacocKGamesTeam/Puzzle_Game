@@ -21,11 +21,11 @@ public class GameFinished : MonoBehaviour
 
     }
 
-    public void HideGameFinishedPanel()
+    public void HideGameFinishedPanel(int stars)
     {
         if (gameFinishedPanel.activeInHierarchy)
         {
-            StartCoroutine(HidePanel());
+            StartCoroutine(HidePanel(stars));
         }
 
     }
@@ -84,14 +84,32 @@ public class GameFinished : MonoBehaviour
 
     }
 
-    IEnumerator HidePanel()
+    IEnumerator HidePanel(int stars)
     {
 
         gameFinishedAnim.Play("FadeOut");
 
-        star1Anim.Play("FadeOut");
-        star2Anim.Play("FadeOut");
-        star3Anim.Play("FadeOut");
+        switch (stars)
+        {
+            case 1:
+                star1Anim.Play("FadeOut");
+                break;
+
+
+            case 2:
+                star1Anim.Play("FadeOut");
+                star2Anim.Play("FadeOut");
+               
+                break;
+
+            case 3:
+                star1Anim.Play("FadeOut");
+                star2Anim.Play("FadeOut");
+                star3Anim.Play("FadeOut");
+                break;
+        }
+
+               
 
         textAnim.Play("FadeOut");
 

@@ -92,7 +92,7 @@ public class PairGameSaver : MonoBehaviour
 
     }
 
-    void SaveGameData()
+    public void SaveGameData()
     {
         FileStream file = null;
 

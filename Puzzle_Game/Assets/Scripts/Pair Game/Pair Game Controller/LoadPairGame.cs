@@ -7,6 +7,10 @@ public class LoadPairGame : MonoBehaviour
     [SerializeField] //use for showing a private variable's value on Inspector.
     private PairGameManager pairGameManager;
 
+
+    [SerializeField] //use for showing a private variable's value on Inspector.
+    private LevelLocker levelLocker;
+
     [SerializeField] //use for showing a private variable's value on Inspector.
     private LayoutPairButtons layoutPairButtons;
 
@@ -106,6 +110,8 @@ public class LoadPairGame : MonoBehaviour
 
 
         anims = pairGameManager.ResetGameplay();
+
+        levelLocker.CheckWhichLevelsAreUnlocked(selectedPair);
 
         switch (pairLevel)
         {

@@ -11,6 +11,13 @@ public class SelectPair : MonoBehaviour
     private SelectLevel selectLevel;
 
     [SerializeField] //use for showing a private variable's value on Inspector.
+    private LevelLocker levelLocker;
+
+    [SerializeField] //use for showing a private variable's value on Inspector.
+    private StarsLocker starsLocker;
+
+
+    [SerializeField] //use for showing a private variable's value on Inspector.
     private LayoutPairButtons layoutPairButtons;
 
     [SerializeField] //use for showing a private variable's value on Inspector.
@@ -42,10 +49,14 @@ public class SelectPair : MonoBehaviour
 
     public void SelectedPair()
     {
+        starsLocker.DeactivateStars();
+
         //Get the name of the current object where touching on the screen
         selectedPair = UnityEngine.EventSystems.EventSystem.current.currentSelectedGameObject.name;
 
         pairGameManager.SetSelectedPair(selectedPair);
+
+        levelLocker.CheckWhichLevelsAreUnlocked(selectedPair);
 
         selectLevel.SetSelectedPair(selectedPair);
 

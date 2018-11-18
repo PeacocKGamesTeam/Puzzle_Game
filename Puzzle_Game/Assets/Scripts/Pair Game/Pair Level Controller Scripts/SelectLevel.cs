@@ -8,6 +8,9 @@ public class SelectLevel : MonoBehaviour
     private PairGameManager pairGameManager;
 
     [SerializeField] //use for showing a private variable's value on Inspector.
+    private LevelLocker levelLocker;
+
+    [SerializeField] //use for showing a private variable's value on Inspector.
     private LoadPairGame loadPairGame;
 
     [SerializeField] //use for showing a private variable's value on Inspector.
@@ -25,6 +28,8 @@ public class SelectLevel : MonoBehaviour
 
     private string selectedPair;
 
+    private bool[] pair;
+
     public void BackToPairMenuPanel()
     {
         StartCoroutine(ShowPairMenuPanel());
@@ -35,10 +40,15 @@ public class SelectLevel : MonoBehaviour
     {
 
         int level = int.Parse(UnityEngine.EventSystems.EventSystem.current.currentSelectedGameObject.name);
+        pair = levelLocker.GetPairLevels(selectedPair); //get the level of the selected pair
 
-        pairGameManager.SetLevel(level);
+        if (pair[level-1])//if the level is unlocked then you are able to play
+        {
+            pairGameManager.SetLevel(level);
+            loadPairGame.LoadPair(level, selectedPair);
+        }
 
-        loadPairGame.LoadPair(level,selectedPair);
+        
     }
 
     //create coroutine
